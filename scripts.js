@@ -1,5 +1,6 @@
 let tripToParse = "Perdita 8 10 8"
 
+//merge the parsetrip with a key list
 function parseTrip(trip) {
     let list=['client', 'depart', 'tempstrajet', 'prix']
 	let list1 = trip.split(" ")
@@ -16,9 +17,8 @@ let tripsToParse = [
 	"Perdita 8 10 8",
 	"Anita 16 3 7"
 ]
-
+//use parseTrip for list of trips string
 function parseTrips(trips) {
-
     let listeObjt=[]
     for (var v of trips){
        listeObjt.push(parseTrip(v))
@@ -35,28 +35,30 @@ function parseTrips(trips) {
     //console.log(listeObjt) 
     return listeObjt
 }
+// take listtrips and sum cost travel
 function getTripsPrice(voyages){
     total=0
-    
     voyages.forEach(element => {
         if(parseInt(element.prix)!=null){
             total+=parseInt(element.prix)
-        
         }
-        
     });
     //console.log(total)
     return total
 }
 
-//let tripA = {'client': 'Roger', 'start': 0, 'duration': 5, 'price': 10}
+
 let tripA={client: 'Roger', depart: '0', tempstrajet: '5', prix: '10'}
-//let tripB= {'client': 'Pongo', 'start': 3, 'duration': 7, 'price': 14}
 let tripB={client: 'Pongo', depart: '3', tempstrajet: '7', prix: '14'}
 let tripC={client: 'Perdita', depart: '8', tempstrajet: '10', prix: '8'}
 let tripD={client: 'Anita', depart: '16', tempstrajet: '3', prix: '7'}
+
+
+
+
 function checkCompatibility(tripA, tripB){
     let bool=true
+    //each trip is compatible with itself so not tested
     if (tripA!==tripB){
         if(parseInt(tripA.tempstrajet) + parseInt(tripA.depart)> parseInt(tripB.depart)){
             bool=false
@@ -66,7 +68,7 @@ function checkCompatibility(tripA, tripB){
     //console.log(bool)
     return bool
 }
-
+// Compare listTrips with itself using checkCompatibility
 function findCompatibilities(trips){
     let tab=[]
     let tab1=[]
@@ -74,6 +76,7 @@ function findCompatibilities(trips){
     let voyages = parseTrips(trips)
     voyages.forEach(element => {
         for(let v of voyages){
+            //each trip is compatible with itself so not tested here
             if (v!== element){
                 if (checkCompatibility(element, v)){ 
                     tab=[v, element]
@@ -85,6 +88,7 @@ function findCompatibilities(trips){
                     continue
                 }
             }else{
+                // add individual trip because each trip is compatible with itself
                 tab=[v]
                 tab1.push(tab)
             }
@@ -94,6 +98,8 @@ function findCompatibilities(trips){
     //console.log(compatible)
     return compatible 
 }
+
+// check each list of compatible trip and sum cost trip, return the most valuable trip
 function findBestPrice(trips){
     let prix
     let result=0
